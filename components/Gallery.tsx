@@ -1,0 +1,11 @@
+'use client';
+import { useEffect, useRef, useState } from 'react';
+import { asset, type Project } from '@/lib/portfolio';
+export default function Gallery({project}: {project: Project}) {
+ const [active,setActive] = useState(0); const dialog = useRef<HTMLDialogElement>(null);
+ const [opened,setOpened] = useState(false);
+ useEffect(() => { if (!opened) return; const previous = document.body.style.overflow; document.body.style.overflow = 'hidden'; return () => {document.body.style.overflow = previous;}; }, [opened]);
+ const move = (direction:number) => setActive(i => (i + direction + project.photos.length) % project.photos.length);
+ const photo = project.photos[active];
+ return <><div className="gallery">{project.photos.map((photo,i) => <button className="gallery-item" key={photo.src} onClick={() => {setActive(i);setOpened(true);dialog.current?.showModal();}} aria-label={`View ${project.collection}, image ${i+1}`}><div className="gallery-image"><img src={asset(photo.thumb)} alt={`${project.brand} ${project.collection} — ${photo.name}`} loading={i < 3 ? 'eager':'lazy'} /><span className="expand">↗</span></div><span className="gallery-caption"><span>{project.collection}</span><span>{String(i+1).padStart(2,'0')}</span></span></button>)}</div><dialog ref={dialog} className="lightbox" aria-label={`${project.brand} image viewer`} onClose={() => setOpened(false)} onClick={e => {if(e.target === e.currentTarget) dialog.current?.close();}} onKeyDown={e => {if(e.key==='ArrowRight') {e.preventDefault();move(1);} if(e.key==='ArrowLeft') {e.preventDefault();move(-1);}}}><div className="lightbox-top"><span>{project.brand} / {project.collection}</span><button autoFocus onClick={() => dialog.current?.close()} aria-label="Close image viewer">Close ✕</button></div>{opened && <img className="full-image" src={asset(photo.src)} alt={`${project.brand} ${project.collection} — ${photo.name}`} />}<div className="lightbox-bottom"><button onClick={() => move(-1)} aria-label="Previous image">← Previous</button><span aria-live="polite">{active+1} / {project.photos.length}</span><a href={asset(photo.original)} target="_blank" rel="noreferrer">Original ↗</a><button onClick={() => move(1)} aria-label="Next image">Next →</button></div></dialog></>;
+}
