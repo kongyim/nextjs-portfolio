@@ -2,7 +2,7 @@ import { readdir, mkdir, writeFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import sharp from 'sharp';
-const root = path.resolve('public/profolio');
+const root = path.resolve('public/portfolio');
 const groups = new Map();
 async function walk(dir) {
   for (const entry of await readdir(dir, { withFileTypes: true })) {
@@ -38,7 +38,7 @@ for (const [group, files] of groups) {
       await sharp(file.full).rotate().resize({ width: 900, height: 900, fit: 'inside', withoutEnlargement: true }).webp({ quality: 82 }).toFile(`public/${thumb}`);
       await sharp(file.full).rotate().resize({ width: 2200, height: 2200, fit: 'inside', withoutEnlargement: true }).webp({ quality: 88 }).toFile(`public/${preview}`);
     }
-    photos.push({ name: file.name, src: '/' + preview, thumb: '/' + thumb, original: '/profolio/' + file.relative.split('/').map(encodeURIComponent).join('/') });
+    photos.push({ name: file.name, src: '/' + preview, thumb: '/' + thumb, original: '/portfolio/' + file.relative.split('/').map(encodeURIComponent).join('/') });
   }
   const [brand, ...parts] = group.split('/');
   const collection = parts.join(' / ') || 'Experience archive';

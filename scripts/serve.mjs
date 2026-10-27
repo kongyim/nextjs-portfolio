@@ -6,8 +6,8 @@ const types = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css',
 http.createServer(async (req,res) => {
  try {
   const url = new URL(req.url, 'http://localhost');
-  if (!url.pathname.startsWith('/profolio/')) { res.writeHead(404); return res.end(); }
-  let file = path.resolve(root, '.' + decodeURIComponent(url.pathname.slice('/profolio'.length)));
+  if (!url.pathname.startsWith('/portfolio/')) { res.writeHead(404); return res.end(); }
+  let file = path.resolve(root, '.' + decodeURIComponent(url.pathname.slice('/portfolio'.length)));
   if (!file.startsWith(root + path.sep) && file !== root) { res.writeHead(403); return res.end(); }
   if ((await stat(file)).isDirectory()) file = path.join(file, 'index.html');
   res.setHeader('Content-Type', types[path.extname(file).toLowerCase()] || 'application/octet-stream');

@@ -1,4 +1,4 @@
-const basePath = '/profolio';
+const basePath = '/portfolio';
 export default {
   output: 'export',
   basePath,

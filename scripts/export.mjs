@@ -3,7 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const source = path.join(root, 'out');
-const destination = path.resolve(root, '../kongyim.github.io/profolio');
+const destination = path.resolve(root, '../kongyim.github.io/portfolio');
 // Merge into the requested directory; never delete unrelated destination files.
 async function rejectSymlinks(target) {
   try {

@@ -4,7 +4,7 @@ test('filters, project navigation, full-size viewer, and keyboard controls', asy
  const failures: string[] = [];
  page.on('pageerror', e => failures.push(e.message));
  page.on('response', r => { if (r.status() >= 400) failures.push(`${r.status()} ${r.url()}`); });
- await page.goto('/profolio/');
+ await page.goto('/portfolio/');
  await expect(page.locator('.project-card')).toHaveCount(projects.length);
  await page.getByRole('button', {name:/^IWC/}).click();
  await expect(page.locator('.project-card')).toHaveCount(3);
@@ -21,7 +21,7 @@ test('filters, project navigation, full-size viewer, and keyboard controls', asy
 });
 test('mobile layout stays within the viewport', async ({page}) => {
  await page.setViewportSize({width:390,height:844});
- await page.goto('/profolio/');
+ await page.goto('/portfolio/');
  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
  await page.screenshot({path:'/tmp/portfolio-mobile.png',fullPage:true});
  await page.setViewportSize({width:1440,height:1000});
