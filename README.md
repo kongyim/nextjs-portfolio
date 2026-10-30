@@ -38,3 +38,9 @@ The build uses Next.js [static export](https://nextjs.org/docs/app/guides/static
 ## Verification
 
 After `npm run build`, run `npm test` for browser checks (install Chromium with `npx playwright install chromium` if needed). `npm run preview` serves the exported site at http://127.0.0.1:3100/portfolio/.
+
+## Employer-focused overview
+
+The homepage highlights full-stack delivery, selected engineering projects, experience and contact details, followed by the existing interactive project archive. Career copy is based on the supplied CV and career reference. Contact is through LinkedIn; personal email, phone and CV downloads are not published.
+
+`npm run export` builds the static site and copies `out/` into both `../kongyim.github.io/portfolio` and `../kongyim.github.io/profolio`. Both copies use the canonical `/portfolio` asset and navigation paths, so deploy both directories together. The copy removes the withdrawn CV and replaces generated `_next` bundles, while preserving unrelated destination files and writes `.nojekyll` for GitHub Pages. It does not commit or push the hosting repository.

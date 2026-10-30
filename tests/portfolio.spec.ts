@@ -27,3 +27,15 @@ test('mobile layout stays within the viewport', async ({page}) => {
  await page.setViewportSize({width:1440,height:1000});
  await page.screenshot({path:'/tmp/portfolio-desktop.png',fullPage:false});
 });
+
+test('recruiters can explore work and connect without exposed contact details or a CV', async ({page, request}) => {
+ await page.goto('/portfolio/');
+ await expect(page.getByRole('heading', {level: 1})).toContainText('Senior full-stack');
+ await page.getByRole('link', {name: 'Explore engineering work'}).click();
+ await expect(page).toHaveURL(/#engineering$/);
+ await expect(page.locator('#engineering article')).toHaveCount(4);
+ await expect(page.getByRole('link', {name: 'Connect on LinkedIn'})).toHaveAttribute('href', /linkedin.com/);
+ await expect(page.locator('a[href^="mailto:"], a[href^="tel:"], a[download]')).toHaveCount(0);
+ await expect(page.locator('body')).not.toContainText('kongyim@gmail.com');
+ expect((await request.get('/portfolio/Kong_Yim_CV.pdf')).status()).toBe(404);
+});
